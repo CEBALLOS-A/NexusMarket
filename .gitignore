@@ -1,0 +1,12 @@
+# Local credentials
+.env
+
+# Maven / Java build outputs
+target/
+bin/
+*.class
+
+# IDE files
+.idea/
+.vscode/
+*.iml

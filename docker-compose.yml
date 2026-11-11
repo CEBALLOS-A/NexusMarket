@@ -1,0 +1,30 @@
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: nexusmarket-sqlserver
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: Developer
+      MSSQL_SA_PASSWORD: ${NEXUS_SQL_PASSWORD:-NexusDev_2026!ChangeMe}
+    ports:
+      - "1433:1433"
+    volumes:
+      - nexus_sql_data:/var/opt/mssql
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P '$${MSSQL_SA_PASSWORD}' -C -Q 'SELECT 1' || exit 1"]
+      interval: 15s
+      timeout: 10s
+      retries: 10
+      start_period: 30s
+
+  mongodb:
+    image: mongo:7
+    container_name: nexusmarket-mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - nexus_mongo_data:/data/db
+
+volumes:
+  nexus_sql_data:
+  nexus_mongo_data:
