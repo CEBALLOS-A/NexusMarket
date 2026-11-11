@@ -1,0 +1,89 @@
+package com.nexusmarket.domain.service;
+
+import com.nexusmarket.domain.ports.in.BuyerPort;
+
+import com.nexusmarket.domain.model.Buyer;
+import com.nexusmarket.domain.model.Cart;
+import com.nexusmarket.domain.model.CartItem;
+import com.nexusmarket.domain.model.Order;
+import com.nexusmarket.domain.model.ProductReturn;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class BuyerService implements BuyerPort {
+
+    private final List<Buyer> buyers = new ArrayList<>();
+    private final CartService cartService;
+    private final OrderService orderService;
+    private final ProductReturnService productReturnService;
+
+    public BuyerService(CartService cartService, OrderService orderService,
+                        ProductReturnService productReturnService) {
+        this.cartService = cartService;
+        this.orderService = orderService;
+        this.productReturnService = productReturnService;
+    }
+
+    public void registerBuyer(Buyer buyer) {
+        if (findBuyer(buyer.getId()) != null) {
+            System.out.println("A buyer with that id already exists.");
+            return;
+        }
+        buyers.add(buyer);
+        System.out.println("Buyer successfully registered.");
+    }
+
+    public Buyer findBuyer(int userId) {
+        for (Buyer buyer : buyers) {
+            if (buyer.getId() == userId) {
+                return buyer;
+            }
+        }
+        return null;
+    }
+
+    public void addAddress(int userId, String address) {
+        Buyer buyer = findBuyer(userId);
+        if (buyer != null) {
+            buyer.setMainAddress(address);
+            System.out.println("Address successfully added.");
+        } else {
+            System.out.println("Buyer not found.");
+        }
+    }
+
+    public void updateAddress(int userId, String newAddress) {
+        Buyer buyer = findBuyer(userId);
+        if (buyer != null) {
+            buyer.setMainAddress(newAddress);
+            System.out.println("Address successfully updated.");
+        } else {
+            System.out.println("Buyer not found.");
+        }
+    }
+
+    public void createCart(Cart cart) {
+        cartService.registerCart(cart);
+    }
+
+    public void addProductToCart(CartItem item) {
+        cartService.addProduct(item);
+    }
+
+    public void removeProductFromCart(int itemId) {
+        cartService.removeProduct(itemId);
+    }
+
+    public void confirmOrder(Order order) {
+        orderService.createOrder(order);
+    }
+
+    public Order findOrder(int orderId) {
+        return orderService.findOrder(orderId);
+    }
+
+    public void requestReturn(ProductReturn productReturn) {
+        productReturnService.requestReturn(productReturn);
+    }
+}

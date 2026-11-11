@@ -1,6 +1,6 @@
 # NexusMarket Database Setup
 
-The original project folders and Java package structure are preserved. The database integration is added under `src/com/nexusmarket/persistence`.
+The project follows a Maven layout with Hexagonal Architecture. The database integration lives in the persistence adapter at `src/main/java/com/nexusmarket/infrastructure/adapters/persistence`.
 
 ## Supported databases
 
@@ -52,7 +52,7 @@ $env:NEXUS_MONGO_DATABASE="NexusMarket"
 
 ## 3. Build and run
 
-Install JDK 11 or later and Apache Maven. From the project root run:
+Install JDK 17 or later and Apache Maven. From the project root run:
 
 `mvn clean compile exec:java`
 

@@ -1,7 +1,7 @@
 # Adaptadores de persistencia — implementación actual
 
 ## Objetivo
-La aplicación Swing conecta el dominio actual con dos motores de almacenamiento: Microsoft SQL Server (relacional) y MongoDB (documental). La integración concreta se encuentra en `src/com/nexusmarket/persistence/DatabaseService.java`; `ui/AppContext.java` comparte una instancia entre las ventanas.
+La aplicación Swing conecta el dominio actual con dos motores de almacenamiento: Microsoft SQL Server (relacional) y MongoDB (documental). La integración concreta se encuentra en `src/main/java/com/nexusmarket/infrastructure/adapters/persistence/DatabaseService.java`; `infrastructure/adapters/ui/AppContext.java` comparte una instancia entre las ventanas.
 
 ## Responsabilidad por motor
 

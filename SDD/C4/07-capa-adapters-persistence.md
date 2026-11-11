@@ -1,6 +1,6 @@
 # Capa — Adapters de persistencia
 
-La implementación actual se concentra en `com.nexusmarket.persistence.DatabaseService`, compartido por `AppContext`. El adapter usa JDBC para SQL Server y el driver síncrono oficial de MongoDB.
+La implementación actual se concentra en `com.nexusmarket.infrastructure.adapters.persistence.DatabaseService`, compartido por `AppContext`. El adapter usa JDBC para SQL Server y el driver síncrono oficial de MongoDB.
 
 - SQL Server: base `NexusMarket`, tablas `dbo.NM_Users` y `dbo.NM_Products`.
 - MongoDB: base `NexusMarket`, colecciones `users` y `products`.

@@ -2,25 +2,37 @@
 
 Academic project based on the Nexus Market document (classes, services and system behaviour).
 
-## Structure
-- `src/com/nexusmarket/model`   – domain classes (User, Buyer, Seller, Administrator, LogisticsOperator, Product, ...)
-- `src/com/nexusmarket/service` – services (one per class, plus `AdministratorService` shared by Administrator and Supervisor)
-- `src/com/nexusmarket/enums`   – enums (EmployeeType, UserStatus, ProductStatus, DocumentType)
-- `src/com/nexusmarket/ui`      – Swing front: login, registration and one panel per role
-- `src/com/nexusmarket/Main.java` – console demo of the full flow
+## Structure (Hexagonal Architecture)
+```text
+src/main/java/com/nexusmarket/
+├── Main.java
+├── domain/
+│   ├── model/                 – entities, enums and value objects
+│   ├── ports/in/              – use case / input ports
+│   ├── ports/out/             – persistence and logistics output ports
+│   └── service/               – pure business logic implementing input ports
+└── infrastructure/
+    └── adapters/
+        ├── persistence/       – JDBC/MongoDB database adapters
+        └── ui/                – Swing login, registration and role panels
+```
 
 Administrator and Supervisor are the same class/service; they differ only by the `role` attribute.
 
-## Build and run
+## Build and run (JDK 17 + Maven)
 ```
-mkdir -p bin
-javac -d bin $(find src -name '*.java')
-java -cp bin com.nexusmarket.Main
+mvn clean compile
+mvn exec:java
 ```
 
-## Graphical interface (login)
+Console demo of the full flow:
 ```
-java -cp bin com.nexusmarket.ui.NexusApp
+mvn exec:java -Dexec.mainClass=com.nexusmarket.Main
+```
+
+Graphical interface (login):
+```
+mvn exec:java -Dexec.mainClass=com.nexusmarket.infrastructure.adapters.ui.NexusApp
 ```
 Demo administrator: ID `1`, password `Admin#2026`. The public registration form creates the account and attempts to save it in SQL Server and MongoDB. Administrators can also create and synchronize users from the Users tab.
 
@@ -33,7 +45,7 @@ The application includes dual database persistence for users and products. Publi
 
 See [DATABASE_SETUP.md](DATABASE_SETUP.md) for setup instructions, schema scripts, connection settings, and usage details.
 
-Build and run with JDK 11+ and Maven:
+Build and run with JDK 17+ and Maven:
 
 ```
 mvn clean compile exec:java
